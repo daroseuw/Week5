@@ -1,113 +1,94 @@
-import logic
-import cli
-import tests
-import numpy as np
+class Board:
+    def __init__(self):
+        self.grid = None
 
-currentPlayer = 'X'
+    def new_board(self):
+        self.grid = [
+            [' ',' ',' '],
+            [' ','X',' '],
+            [' ',' ',' ']
+            ]
 
-board = logic.make_empty_board()
+    def print_board(self):
+        print('-' + '-' + '1' + '-' + '-' + '-' + '2' + '-' + '-' + '-' + '3' + '-')
+        print('1 '+ self.grid[0][0] + ' | ' + self.grid[0][1] + ' | ' + self.grid[0][2])
+        print('-' + '-' + '-' + '-' + '-' + '-' + '-' + '-' + '-' + '-' + '-' + '-')
+        print('2 '+ self.grid[1][0] + ' | ' + self.grid[1][1] + ' | ' + self.grid[1][2])
+        print('-' + '-' + '-' + '-' + '-' + '-' + '-' + '-' + '-' + '-' + '-' + '-')
+        print('3 '+ self.grid[2][0] + ' | ' + self.grid[2][1] + ' | ' + self.grid[2][2])
 
-# board = [
-#     [' ', 'X', 'O'],
-#     ['X', 'O', 'X'],
-#     ['X', 'X', 'O']
-# ]
+class Moves:
+    def __init__(self):
+        self.move_row = None
+        self.move_column = None
+        self.is_valid = False
+    
+    def get_move(self):
+        while True:
+            try:
+                self.move_row = int(input("What row would you like to play in?"))
+                self.move_column = int(input("What column would you like to play in?"))
+            except ValueError:
+                print("Please enter an integer value for row and column.")
+                #Return to the start of the loop
+                continue
+            else:
+                #Exit the loop
+                break
+        
+    # def get_move(self):
+    #     self.move_row = int(input("What row would you like to play in?"))
+    #     self.move_column = int(input("What column would you like to play in?"))
 
-
-
-# CHECK WIN CONDITIONS
-# https://stackoverflow.com/questions/39922967/python-determine-tic-tac-toe-winner
-# https://www.freecodecamp.org/news/python-unique-list-how-to-get-all-the-unique-values-in-a-list-or-array/
-
-# def check_rows(sample_win_board):
-#     for row in sample_win_board:
-#         if len(set(row)) == 1 and row[0] != ' ':
-#             return row[0]
-
-# def check_columns(sample_win_board):
-#     for col in range(len(sample_win_board[0])):
-#         if (
-#             (sample_win_board[0][col] != ' ') and
-#             (sample_win_board[0][col] == sample_win_board[1][col] == sample_win_board[2][col])
-#             ):
-#             return sample_win_board[0][col]
-
-# def check_diagonal(sample_win_board):
-#     diag_values_top_left = []
-#     diag_values_top_right = []
-#     for i in range(len(sample_win_board)):
-#         diag_values_top_left.append(sample_win_board[i][i])
-#     for i in range(len(sample_win_board)):
-#         diag_values_top_right.append(
-#             sample_win_board[i][len(sample_win_board) - i - 1]
-#         )
-#     if (
-#         (diag_values_top_left[0] != ' ') and
-#         (len(set(diag_values_top_left)) == 1)
-#         ): 
-#         return sample_win_board[0][0]
-#     elif (
-#         (diag_values_top_right[0] != ' ') and
-#         (len(set(diag_values_top_right)) == 1)
-#         ):
-#         return sample_win_board[0][2]
-#     else:
-#         return None
-
-# print(check_rows(sample_win_board))
-# print(check_columns(sample_win_board))
-# print(check_diagonal(sample_win_board))
-
-
-
-# logic.get_players()
-# if logic.get_players in ('X','O'):
-#     currentPlayer = 
-
-# GET MOVE FROM PLAYER:
-# def get_move():
-#     global board
-#     moveRow = int(input("What row would you like to play in?"))
-#     moveColumn = int(input("What column would you like to play in?"))
-#     if (moveRow < 1 or moveRow > len(board[0])) or (moveColumn < 1 or moveColumn > len(board)):
-#         print("Please enter valid positions for row and column.")
-#         moveRow = int(input("What row would you like to play in?"))
-#         moveColumn = int(input("What column would you like to play in?"))
-#     elif board[moveRow - 1][moveColumn - 1] != ' ':
-#         print("Please select a different location. The one you requested is already taken.")
-#         moveRow = int(input("What row would you like to play in?"))
-#         moveColumn = int(input("What column would you like to play in?"))
-#     else:
-#         board[moveRow - 1][moveColumn - 1] = currentPlayer
-#         print("Thank you")
-
-# get_move()
-# logic.print_board(board)
-
-
-# TEST GETTING AND VALIDATING PLAYERS
-# def get_players(currentPlayer):
-#     first_player = input("Will X or O start?\n")
-#     return first_player
-
-# def validate_players(get_players, currentPlayer):
-#     if str(get_players(currentPlayer)) != 'X' and str(get_players(currentPlayer)) != 'O':
-#         return False
-#     else:
-#         return True
-
-# print(get_players(currentPlayer))
-# validate_players(get_players(currentPlayer))
-
-class PlayerOrder(self, currentPlayer):
-    def get_players(currentPlayer):
-        first_player = input("Will X or O start?\n")
-        return first_player
-
-    def validate_players(get_players, currentPlayer):
-        if str(get_players(currentPlayer)) != 'X' and str(get_players(currentPlayer)) != 'O':
-            return False
+    def validate_move(self, grid):
+        """
+        This function returns a boolean to indicate whether the move is valid or not
+        as well as the reason for any error if the boolean returns False. 
+        """
+        if (self.move_row < 1 or self.move_row > len(grid[0])) or (self.move_column < 1 or self.move_column > len(grid)):
+            self.is_valid = False
+            self.error_message = "B"
+            return self.is_valid, self.error_message
+        elif grid[self.move_row - 1][self.move_column - 1] != ' ':
+            self.is_valid = False
+            self.error_message = "T"
+            return self.is_valid, self.error_message
+        elif grid[self.move_row - 1][self.move_column - 1] == ' ':
+            self.is_valid = True
+            self.error_message = None
+            return self.is_valid, self.error_message
         else:
-            return True
+            self.is_valid = False
+            self.error_message = None
+            return self.is_valid, self.error_message
 
-currentPlayer = get_players(self, currentPlayer)
+    def execute_move(self, grid):
+        while self.is_valid == False:
+            self.get_move()
+            self.validate_move(grid)
+            if self.error_message == 'T':
+                print("Please select a different location. The one you requested is already taken.")
+                continue
+            elif self.error_message == 'B':
+                print(f"Please enter positions for row and column that fit the game boundaries: {len(grid[0])} x {len(grid)}.")
+                continue
+        if self.is_valid:
+            grid[self.move_row - 1][self.move_column - 1] = 'X'
+
+        # if self.is_valid:
+        #     grid[self.move_row - 1][self.move_column - 1] = 'X'
+        # else:
+        #     while self.is_valid == False:
+        #         if self.error_message == 'T':
+        #             print("Please select a different location. The one you requested is already taken.")
+        #         elif self.error_message == 'B':
+        #             print(f"Please enter positions for row and column that fit the game boundaries \
+        #                 ({len(grid[0])} x {len(grid)}).")
+                
+
+board = Board()
+board.new_board()
+board.print_board()
+a = Moves()
+a.execute_move(board.grid)
+board.print_board()
