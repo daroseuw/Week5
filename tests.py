@@ -1,5 +1,9 @@
 import unittest
-import logic
+from logic import *
+
+moves = Moves()
+gameboard = Board()
+players = Players()
 
 class TestLogic(unittest.TestCase):
 
@@ -9,7 +13,15 @@ class TestLogic(unittest.TestCase):
             [' ', 'X', ' '],
             [' ', 'O', 'X']
         ]
-        self.assertEqual(logic.check_diagonal(board), 'X')
+        self.assertEqual(moves.check_for_win(board), True)
+
+    def test_board_full(self, board):
+        board = [
+        ['X','O','X'],
+        ['O','X','O'],
+        ['X','O','X']
+        ]
+        self.assertEqual(gameboard.board_full(board), True)
 
     # TODO: Test all functions from logic.py!
 
