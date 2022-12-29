@@ -2,7 +2,7 @@
 # # the Tic-Tac-Toe game. This is where input and output happens.
 # # For core game logic, see logic.py.
 
-from logic import Board, Players, Moves, GameRules, RunGame
+from logic import Board, Players, Moves, RunGame
 
 # # Prep:
 #     # Get a new board
