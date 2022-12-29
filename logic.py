@@ -203,6 +203,8 @@ class RunGame:
                 break
             self.current_player = self.moves.advance_turn(self.current_player)
         if self.moves.winner == True:
+            self.gameboard.print_board()
             print(f"{self.current_player} won the game!")
         elif self.gameboard.full == True:
+            self.gameboard.print_board()
             print("The game resulted in a draw.")
